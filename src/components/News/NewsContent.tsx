@@ -1,28 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import Link from "next/link";
-
 import type { Locale } from "@/i18n/config";
-
 import type { NewsItem } from "@/lib/cms";
-
-import {
-  formatNewsDate,
-  getCategoryLabel,
-} from "@/lib/news";
-
-import NewsCategorySelect from "./NewsCategorySelect";
-
-type Category =
-  | "all"
-  | "お知らせ"
-  | "論文"
-  | "受賞"
-  | "研究"
-  | "イベント"
-  | "ゼミ";
+import { formatNewsDate, getCategoryLabel } from "@/lib/news";
+import NewsCategorySelect, {
+  type NewsCategory,
+} from "./NewsCategorySelect";
 
 type Props = {
   locale: Locale;
@@ -31,186 +16,175 @@ type Props = {
 
 const ITEMS_PER_PAGE = 10;
 
-export default function NewsContent({
-  locale,
-  news,
-}: Props) {
+export default function NewsContent({ locale, news }: Props) {
+  const isJa = locale === "ja";
+
   const [selectedCategory, setSelectedCategory] =
-    useState<Category>("all");
+    useState<NewsCategory>("all");
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-  const filteredNews =
-    selectedCategory === "all"
-      ? news
-      : news.filter((item) =>
-          item.category.includes(selectedCategory),
-        );
+  const filteredNews = news
+    .filter(
+      (item) =>
+        selectedCategory === "all" ||
+        item.category.includes(selectedCategory),
+    )
+    .sort((a, b) => b.date.localeCompare(a.date));
 
-  // カテゴリーを変更したら1ページ目に戻す
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
-  // ページ数
-  const totalPages = Math.ceil(
-    filteredNews.length / ITEMS_PER_PAGE,
+  const total = filteredNews.length;
+  const totalPages = Math.max(
+    1,
+    Math.ceil(total / ITEMS_PER_PAGE),
   );
-
-  // 現在のページに表示するニュース
-  const startIndex =
-    (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentPage = Math.min(page, totalPages);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 
   const currentNews = filteredNews.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE,
   );
 
+  function changePage(nextPage: number) {
+    setPage(nextPage);
+
+    document.getElementById("news-results")?.scrollIntoView({
+      behavior: "instant",
+      block: "start",
+    });
+  }
+
   return (
-    <>
-      {/* Category Select */}
+    <div className="pb-4 pt-8 md:pt-12">
+      {/* Filters */}
       <NewsCategorySelect
         locale={locale}
         selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+        onCategoryChange={(category) => {
+          setSelectedCategory(category);
+          setPage(1);
+        }}
       />
 
-      {/* News List */}
-      {filteredNews.length === 0 ? (
-        <p className="mt-12 text-text-secondary">
-          {locale === "ja"
-            ? "該当するニュースはありません。"
-            : "No news found."}
+      {/* Results */}
+      <div id="news-results" className="scroll-mt-28 pt-8">
+        <p
+          aria-live="polite"
+          className="text-sm text-text-secondary"
+        >
+          {total === 0
+            ? isJa
+              ? "該当するニュースはありません。"
+              : "No matching news."
+            : isJa
+              ? `全${total}件中 ${startIndex + 1}〜${Math.min(
+                  startIndex + ITEMS_PER_PAGE,
+                  total,
+                )}件`
+              : `${startIndex + 1}–${Math.min(
+                  startIndex + ITEMS_PER_PAGE,
+                  total,
+                )} of ${total} results`}
         </p>
-      ) : (
-        <>
-          <div className="mt-16 border-t border-border">
+
+        {total > 0 && (
+          <ul className="mt-6 divide-y divide-border border-y border-border">
             {currentNews.map((item) => (
-              <Link
-                key={item.id}
-                href={`/${locale}/news/${item.id}`}
-                className="group block border-b border-border py-8 transition-colors"
-              >
-                <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-12">
-                  {/* Date */}
-                  <time className="text-sm text-text-secondary md:w-32 md:shrink-0">
+              <li key={item.id}>
+                <Link
+                  href={`/${locale}/news/${encodeURIComponent(item.id)}`}
+                  className="group grid gap-4 py-7 transition-colors md:grid-cols-[130px_minmax(0,1fr)_24px] md:gap-8 md:py-8"
+                >
+                  <time
+                    dateTime={item.date}
+                    className="text-base leading-7 text-text-secondary"
+                  >
                     {formatNewsDate(item.date, locale)}
                   </time>
 
-                  {/* Content */}
-                  <div className="flex flex-1 flex-col gap-3">
-                    {/* Category */}
-                    <div className="flex flex-wrap gap-3">
-                      {item.category.map((category) => (
-                        <span
-                          key={category}
-                          className="w-fit text-xs font-medium tracking-wide text-primary"
-                        >
-                          {getCategoryLabel(
-                            category,
-                            locale,
-                          )}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="min-w-0">
+                    {item.category.length > 0 && (
+                      <div className="mb-3 flex flex-wrap gap-x-4 gap-y-2">
+                        {item.category.map((category) => (
+                          <span
+                            key={category}
+                            className="text-sm font-medium text-primary"
+                          >
+                            {getCategoryLabel(category, locale)}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-                    {/* Title */}
-                    <h2 className="text-lg font-medium leading-relaxed transition-colors group-hover:text-primary md:text-xl">
+                    <h2 className="break-words text-lg font-medium leading-relaxed transition-colors group-hover:text-primary group-hover:underline group-hover:underline-offset-4">
                       {item.title}
                     </h2>
                   </div>
 
-                  {/* Arrow */}
-                  <span className="hidden text-xl text-text-secondary transition-transform group-hover:translate-x-1 md:block">
+                  <span
+                    aria-hidden="true"
+                    className="hidden text-xl text-text-secondary transition-transform group-hover:translate-x-1 md:block"
+                  >
                     →
                   </span>
-                </div>
-              </Link>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
+        )}
+      </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <nav
-              aria-label={
-                locale === "ja"
-                  ? "ページネーション"
-                  : "Pagination"
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <nav
+          aria-label={
+            isJa ? "ニュースのページ切り替え" : "News pagination"
+          }
+          className="mt-10 flex flex-wrap items-center justify-center gap-2 md:mt-12"
+        >
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => changePage(currentPage - 1)}
+            className="min-h-11 rounded-sm border border-border px-4 text-sm transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            {isJa ? "前へ" : "Previous"}
+          </button>
+
+          {Array.from(
+            { length: totalPages },
+            (_, index) => index + 1,
+          ).map((pageNumber) => (
+            <button
+              key={pageNumber}
+              type="button"
+              aria-current={
+                currentPage === pageNumber ? "page" : undefined
               }
-              className="mt-12 flex items-center justify-center gap-2"
+              aria-label={
+                isJa ? `${pageNumber}ページ目` : `Page ${pageNumber}`
+              }
+              onClick={() => changePage(pageNumber)}
+              className={`grid h-11 min-w-11 place-items-center rounded-sm border px-3 text-base transition-colors ${
+                currentPage === pageNumber
+                  ? "border-primary bg-primary text-white"
+                  : "border-border text-text-secondary hover:border-primary hover:text-primary"
+              }`}
             >
-              {/* Previous */}
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentPage((page) =>
-                    Math.max(page - 1, 1),
-                  )
-                }
-                disabled={currentPage === 1}
-                aria-label={
-                  locale === "ja"
-                    ? "前のページ"
-                    : "Previous page"
-                }
-                className="flex h-9 w-9 items-center justify-center text-sm text-text-secondary transition-colors duration-200 hover:text-primary disabled:cursor-default disabled:opacity-30"
-              >
-                ←
-              </button>
+              {pageNumber}
+            </button>
+          ))}
 
-              {/* Page numbers */}
-              {Array.from(
-                { length: totalPages },
-                (_, index) => index + 1,
-              ).map((page) => {
-                const isCurrent =
-                  currentPage === page;
-
-                return (
-                  <button
-                    key={page}
-                    type="button"
-                    onClick={() =>
-                      setCurrentPage(page)
-                    }
-                    aria-current={
-                      isCurrent ? "page" : undefined
-                    }
-                    className={`flex h-9 min-w-9 items-center justify-center px-2 text-sm transition-colors duration-200 ${
-                      isCurrent
-                        ? "bg-[#EEF3F0] font-medium text-primary"
-                        : "text-text-secondary hover:bg-[#F5F7F6] hover:text-primary"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                );
-              })}
-
-              {/* Next */}
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentPage((page) =>
-                    Math.min(page + 1, totalPages),
-                  )
-                }
-                disabled={
-                  currentPage === totalPages
-                }
-                aria-label={
-                  locale === "ja"
-                    ? "次のページ"
-                    : "Next page"
-                }
-                className="flex h-9 w-9 items-center justify-center text-sm text-text-secondary transition-colors duration-200 hover:text-primary disabled:cursor-default disabled:opacity-30"
-              >
-                →
-              </button>
-            </nav>
-          )}
-        </>
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => changePage(currentPage + 1)}
+            className="min-h-11 rounded-sm border border-border px-4 text-sm transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            {isJa ? "次へ" : "Next"}
+          </button>
+        </nav>
       )}
-    </>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ export default function PageBanner({ title }: PageBannerProps) {
     <section className="relative flex min-h-[240px] items-center justify-center overflow-hidden border-b border-border px-6">
       {/* Background image */}
       <Image
-        src="/picture.jpg"
+        src="/bannner.png"
         alt=""
         fill
         priority

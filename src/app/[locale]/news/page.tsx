@@ -2,6 +2,17 @@ import { resolveLocale } from "@/i18n/resolve-locale";
 import { getNewsList } from "@/lib/cms";
 import PageBanner from "@/components/ui/PageBanner";
 import NewsContent from "@/components/News/NewsContent";
+import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/page-metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return createPageMetadata(params, "news");
+}
+
 
 export const revalidate = 60;
 

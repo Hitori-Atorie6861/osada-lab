@@ -26,38 +26,46 @@ export default function Header({
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link
-          href={`/${locale}`}
-          className="flex items-center gap-2 text-lg font-bold tracking-tight text-primary"
-        >
-          <Image
-            src="/lab-icon1.jpg"
-            alt=""
-            width={32}
-            height={32}
-            className="object-contain"
-          />
-          <span>XX Lab</span>
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
+      <div className="site-container">
+        <div className="flex min-h-20 items-center justify-between gap-6 md:min-h-24">
+          <Link
+            href={`/${locale}`}
+            className="flex shrink-0 items-center gap-3 text-primary md:gap-4"
+          >
+            <Image
+              src="/pic1.jpg"
+              alt=""
+              width={56}
+              height={56}
+              className="h-11 w-11 object-contain md:h-14 md:w-14"
+            />
 
-        <nav className="hidden items-center gap-8 md:flex">
+            <span className="text-2xl font-bold tracking-tight md:text-3xl">
+              XX Lab
+            </span>
+          </Link>
+
+          <div className="flex shrink-0 items-center gap-5">
+            <LanguageSwitcher locale={locale} />
+            <MobileNav locale={locale} dict={dict} />
+          </div>
+        </div>
+
+        <nav
+          aria-label={locale === "ja" ? "メインナビゲーション" : "Main navigation"}
+          className="hidden flex-wrap items-center gap-x-8 gap-y-3 pb-6 pt-2 md:flex lg:gap-x-10"
+        >
           {navItems.map((item) => (
             <Link
               key={item.key}
               href={`/${locale}${item.href}`}
-              className="text-sm text-text-primary/80 transition-colors hover:text-primary"
+              className="whitespace-nowrap text-base font-medium text-text-primary/80 transition-colors hover:text-primary"
             >
               {dict.nav[item.key]}
             </Link>
           ))}
         </nav>
-
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher locale={locale} />
-          <MobileNav locale={locale} dict={dict} />
-        </div>
       </div>
     </header>
   );

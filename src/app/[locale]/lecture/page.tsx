@@ -1,7 +1,18 @@
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import PageBanner from "@/components/PageBanner";
+import PageBanner from "@/components/ui/PageBanner";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/page-metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return createPageMetadata(params, "lecture");
+}
+
 
 export default async function LecturePage({
   params,

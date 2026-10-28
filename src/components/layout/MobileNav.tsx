@@ -16,7 +16,7 @@ export default function MobileNav({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="md:hidden">
+    <div className="xl:hidden">
       {/* ハンバーガーボタン */}
       <button
         type="button"

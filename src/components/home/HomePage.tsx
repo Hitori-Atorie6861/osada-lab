@@ -4,23 +4,23 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { getNewsList } from "@/lib/cms";
 import { formatNewsDate, getCategoryLabel } from "@/lib/news";
+import DataWave from "./DataWave";
 
 type Props = {
   locale: Locale;
   dict: Dictionary;
 };
 
-// 仮画像。実際の写真が揃ったら src と alt を変更してください。
 const images = {
   hero: { src: "/pic1.jpg", alt: "" },
-  research: { src: "/picture.jpg", alt: "" },
-  seminar: { src: "/pic2.jpg", alt: "" },
+  research: { src: "/reseach_image.png", alt: "" },
+  seminar: { src: "/dicussion.png", alt: "" },
   professor: { src: "/osadat.jpg", alt: "長田 健" },
   contact: { src: "/picture.jpg", alt: "" },
 };
 
 const container =
-  "mx-auto w-full max-w-[1280px] px-6 md:px-10 lg:px-16";
+  "mx-auto w-full max-w-[1800px] px-6 md:px-10 lg:px-16 xl:px-20";
 
 const primaryButton =
   "inline-flex min-h-12 items-center justify-between gap-10 border border-[#1B3A2F] bg-[#1B3A2F] px-6 py-3 text-sm text-white transition-colors hover:bg-[#2E5443]";
@@ -43,13 +43,9 @@ export default async function HomePage({ locale, dict }: Props) {
   const isJa = locale === "ja";
   const href = (path: string) => `/${locale}/${path}`;
 
-  // ニュースページと同じデータを使用。新しい順に4件表示。
   const news = (await getNewsList()).slice(0, 4);
 
   const text = {
-    heroTitle: isJa
-      ? "金融を通じて、\n社会を読み解く。"
-      : "Understanding society\nthrough finance.",
     heroBody: isJa
       ? "銀行、金融政策、そして人と社会のつながり。長田研究室では、金融の仕組みを研究し、よりよい社会のあり方を考えます。"
       : "Banking, monetary policy, and the connections between people and society. We study how finance works and what it means for a better society.",
@@ -66,7 +62,6 @@ export default async function HomePage({ locale, dict }: Props) {
     researchBody: isJa
       ? "銀行と金融システム、金融政策、金融市場と経済発展。複数の視点をつなぎ、金融と社会の関係を探究しています。"
       : "From banking and financial systems to monetary policy and economic development, we bring together different perspectives on finance and society.",
-    researchAreas: isJa ? "主な研究領域" : "Research areas",
     allResearch: isJa ? "すべての研究領域" : "All research areas",
     publications: isJa ? "論文・研究業績" : "Publications",
     seminarTitle: isJa
@@ -75,17 +70,10 @@ export default async function HomePage({ locale, dict }: Props) {
     seminarBody: isJa
       ? "金融・経済を学び、仲間と議論し、自分の考えを深める。企業訪問やコンテストへの挑戦など、人や社会との出会いも学びにつなげます。"
       : "Study finance and economics, exchange ideas, and develop your own perspective. Company visits and competitions connect our learning with people and society.",
-    seminarSteps: isJa
-      ? ["金融・経済を学ぶ", "仲間と議論する", "社会とつながる"]
-      : [
-          "Study finance and economics",
-          "Exchange ideas",
-          "Connect with society",
-        ],
     seminarDetails: isJa ? "ゼミでの学び・活動" : "Explore the seminar",
     lecture: isJa ? "講義案内" : "Courses",
     professorLabel: isJa ? "教員紹介" : "Faculty profile",
-    professorName: "長田 健",
+    professorName: dict.professor.name,
     professorRole: isJa ? "教授" : "Professor",
     professorSpecialty: isJa ? "金融論・銀行論" : "Finance and Banking",
     professorBody: isJa
@@ -99,15 +87,14 @@ export default async function HomePage({ locale, dict }: Props) {
     contactLink: isJa ? "お問い合わせ" : "Contact us",
   };
 
-  // 共通ヘッダー・フッターは既存のレイアウトを使用します。
   return (
     <div className="bg-[#FAFAF8] text-[#1B3A2F]" lang={locale}>
-      {/* HERO：左に文章、右に大きな画像 */}
+      {/* HERO */}
       <section
         aria-labelledby="home-title"
         className="grid border-b border-[#1B3A2F]/15 lg:grid-cols-2"
       >
-        <div className="flex flex-col justify-center px-6 py-12 md:px-10 md:py-16 lg:min-h-[600px] lg:pl-[max(4rem,calc((100vw-1152px)/2))] lg:pr-12">
+        <div className="flex min-w-0 flex-col justify-center px-6 py-12 md:px-10 md:py-16 lg:min-h-[600px] lg:px-16 xl:px-20">
           <p className="text-xs leading-6 tracking-[0.12em]">
             {isJa
               ? "埼玉大学 経済学部 · 長田研究室"
@@ -116,45 +103,43 @@ export default async function HomePage({ locale, dict }: Props) {
 
           <h1
             id="home-title"
-            className="mt-8 whitespace-pre-line text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[1.5] tracking-[-0.045em]"
+            className="mt-8 font-medium tracking-[-0.025em]"
           >
-            {text.heroTitle}
+            {isJa ? (
+              <>
+                <span className="block text-[clamp(1.75rem,3vw,3.5rem)] leading-[1.4]">
+                  金融で、より幸せな社会へ
+                </span>
+
+                <span
+                  lang="en"
+                  className="mt-5 block text-[clamp(1.5rem,2.5vw,2.75rem)] leading-[1.4]"
+                >
+                  Money and Finance
+                  <br />
+                  for a Happier Society
+                </span>
+              </>
+            ) : (
+              <span className="block text-[clamp(2rem,3.5vw,3.5rem)] leading-[1.4]">
+                Money and Finance
+                <br />
+                for a Happier Society
+              </span>
+            )}
           </h1>
 
-          <p className="mt-6 max-w-lg text-sm leading-8 text-[#1B3A2F]/80">
+          <p className="mt-6 w-full max-w-[560px] text-base leading-8 text-[#1B3A2F]/80">
             {text.heroBody}
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={href("research")} className={`group ${primaryButton}`}>
-              {text.researchLink}
-              <Arrow />
-            </Link>
-
-            <Link href={href("seminar")} className={`group ${secondaryButton}`}>
-              {text.seminarLink}
-              <Arrow />
-            </Link>
-          </div>
-
-          <p className="mt-10 text-[10px] leading-6 tracking-[0.08em] text-[#1B3A2F]/70">
-            Money and Finance for a Happier Society.
           </p>
         </div>
 
-        <div className="relative aspect-[16/9] overflow-hidden bg-[#E8EDE3] lg:aspect-auto lg:min-h-[600px]">
-          <Image
-            src={images.hero.src}
-            alt={images.hero.alt}
-            fill
-            priority
-            sizes="(max-width: 1023px) 100vw, 50vw"
-            className="object-cover"
-          />
+        <div className="relative aspect-[16/9] overflow-hidden lg:aspect-auto lg:min-h-[600px]">
+          <DataWave />
         </div>
       </section>
 
-      {/* NEWS：microCMSの最新記事 */}
+      {/* NEWS */}
       <section
         aria-labelledby="home-news-title"
         className="border-b border-[#1B3A2F]/15 bg-white"
@@ -223,7 +208,10 @@ export default async function HomePage({ locale, dict }: Props) {
               )}
 
               <div className="mt-7 flex justify-end">
-                <Link href={href("news")} className={`group ${secondaryButton}`}>
+                <Link
+                  href={href("news")}
+                  className={`group ${secondaryButton}`}
+                >
                   {text.newsLink}
                   <Arrow />
                 </Link>
@@ -233,10 +221,10 @@ export default async function HomePage({ locale, dict }: Props) {
         </div>
       </section>
 
-      {/* ABOUT：中央に短い紹介 */}
+      {/* ABOUT */}
       <section
         aria-labelledby="home-about-title"
-        className="bg-[#F2F5EF] text-center"
+        className="bg-[#F0F4F0] text-center"
       >
         <div className={`${container} py-16 md:py-20`}>
           <p className="text-4xl tracking-[-0.03em] md:text-5xl">
@@ -255,7 +243,7 @@ export default async function HomePage({ locale, dict }: Props) {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-[#1B3A2F]/80">
-            {dict.about.mission.paragraphs[0]}
+            {dict.about.body}
           </p>
 
           <Link
@@ -268,7 +256,7 @@ export default async function HomePage({ locale, dict }: Props) {
         </div>
       </section>
 
-      {/* ACTIVITIES：画像 → 見出し → 説明の2列構成 */}
+      {/* ACTIVITIES */}
       <section
         aria-labelledby="home-activities-title"
         className="bg-white"
@@ -316,32 +304,14 @@ export default async function HomePage({ locale, dict }: Props) {
                 {text.researchTitle}
               </h3>
 
-              <p className="mt-5 text-sm leading-8 text-[#1B3A2F]/80">
+              <p className="mb-8 mt-5 text-base leading-8 text-[#1B3A2F]/80">
                 {text.researchBody}
               </p>
-
-              <p className="mt-6 text-xs font-medium">
-                {text.researchAreas}
-              </p>
-
-              <ul className="mb-6 mt-3 divide-y divide-[#1B3A2F]/15">
-                {dict.research.areas.slice(0, 3).map((area) => (
-                  <li
-                    key={area.number}
-                    className="flex items-baseline gap-4 py-3 text-sm"
-                  >
-                    <span className="shrink-0 text-[10px] text-[#1B3A2F]/70">
-                      {area.number}
-                    </span>
-                    <span>{isJa ? area.subtitle : area.title}</span>
-                  </li>
-                ))}
-              </ul>
 
               <div className="mt-auto flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-[#1B3A2F]/15 pt-4">
                 <Link
                   href={href("research")}
-                  className="group inline-flex min-h-11 items-center gap-5 text-xs hover:underline hover:underline-offset-4"
+                  className="group inline-flex min-h-11 items-center gap-5 text-sm hover:underline hover:underline-offset-4"
                 >
                   {text.allResearch}
                   <Arrow />
@@ -349,7 +319,7 @@ export default async function HomePage({ locale, dict }: Props) {
 
                 <Link
                   href={href("publications")}
-                  className="group inline-flex min-h-11 items-center gap-5 text-xs hover:underline hover:underline-offset-4"
+                  className="group inline-flex min-h-11 items-center gap-5 text-sm hover:underline hover:underline-offset-4"
                 >
                   {text.publications}
                   <Arrow />
@@ -385,28 +355,14 @@ export default async function HomePage({ locale, dict }: Props) {
                 {text.seminarTitle}
               </h3>
 
-              <p className="mt-5 text-sm leading-8 text-[#1B3A2F]/80">
+              <p className="mb-8 mt-5 text-base leading-8 text-[#1B3A2F]/80">
                 {text.seminarBody}
               </p>
-
-              <ol className="mb-6 mt-6 space-y-4">
-                {text.seminarSteps.map((step, index) => (
-                  <li
-                    key={step}
-                    className="flex items-center gap-4 text-sm"
-                  >
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#1B3A2F]/30 text-[10px]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
 
               <div className="mt-auto flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-[#1B3A2F]/15 pt-4">
                 <Link
                   href={href("seminar")}
-                  className="group inline-flex min-h-11 items-center gap-5 text-xs hover:underline hover:underline-offset-4"
+                  className="group inline-flex min-h-11 items-center gap-5 text-sm hover:underline hover:underline-offset-4"
                 >
                   {text.seminarDetails}
                   <Arrow />
@@ -414,7 +370,7 @@ export default async function HomePage({ locale, dict }: Props) {
 
                 <Link
                   href={href("lecture")}
-                  className="group inline-flex min-h-11 items-center gap-5 text-xs hover:underline hover:underline-offset-4"
+                  className="group inline-flex min-h-11 items-center gap-5 text-sm hover:underline hover:underline-offset-4"
                 >
                   {text.lecture}
                   <Arrow />
@@ -425,7 +381,7 @@ export default async function HomePage({ locale, dict }: Props) {
         </div>
       </section>
 
-      {/* PROFESSOR：大きな写真とプロフィールを横並び */}
+      {/* PROFESSOR */}
       <section
         aria-labelledby="home-professor-title"
         className="bg-white"
@@ -478,13 +434,13 @@ export default async function HomePage({ locale, dict }: Props) {
         </div>
       </section>
 
-      {/* CONTACT：背景画像の上に案内 */}
+      {/* CONTACT */}
       <section
         aria-labelledby="home-contact-title"
         className="relative isolate overflow-hidden bg-[#1B3A2F] text-center text-white"
       >
         <Image
-          src={images.contact.src}
+          src="/123456.png"
           alt={images.contact.alt}
           fill
           sizes="100vw"
