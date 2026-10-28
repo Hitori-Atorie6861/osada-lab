@@ -8,7 +8,7 @@ import {
 import {
   getNewsDetail,
   getNewsList,
-} from "@/lib/microcms"
+} from "@/lib/cms";
 import { notFound } from "next/navigation";
 
 export const revalidate = 60;
