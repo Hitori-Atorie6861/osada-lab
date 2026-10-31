@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import type { Locale } from "@/i18n/config";
@@ -15,27 +16,27 @@ export default function Header({
 }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-      <div className="mx-auto flex min-h-20 w-full max-w-[1800px] items-center justify-between gap-6 px-6 md:px-10 lg:px-16 xl:px-20">
+      <div className="mx-auto flex min-h-16 w-full max-w-[1800px] items-center justify-between gap-2 px-3 sm:px-4 md:min-h-20 md:gap-6 md:px-10 lg:px-16 xl:px-20">
         {/* Logo */}
         <Link
           href={`/${locale}`}
-          className="flex shrink-0 items-center gap-3 text-primary"
+          className="flex min-w-0 shrink items-center gap-2 text-primary md:shrink-0 md:gap-3"
         >
           <Image
             src="/osada_senseni2.png"
             alt="長田研究室のロゴ"
             width={56}
             height={56}
-            className="h-11 w-11 object-contain mix-blend-multiply md:h-14 md:w-14"
+            className="h-9 w-9 shrink-0 object-contain mix-blend-multiply sm:h-10 sm:w-10 md:h-14 md:w-14"
           />
 
-          <span className="whitespace-nowrap text-2xl font-bold tracking-tight">
+          <span className="whitespace-nowrap text-lg font-bold tracking-tight sm:text-xl md:text-2xl">
             Osada Lab
           </span>
         </Link>
 
-        <div className="ml-auto flex items-center gap-5 2xl:gap-8">
-          {/* Desktop navigation: 1280px以上 */}
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 md:gap-5 2xl:gap-8">
+          {/* Desktop navigation */}
           <nav
             aria-label={
               locale === "ja"
@@ -56,7 +57,7 @@ export default function Header({
           </nav>
 
           {/* Language / Mobile menu */}
-          <div className="flex shrink-0 items-center gap-4 xl:border-l xl:border-border xl:pl-6">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3 md:gap-4 xl:border-l xl:border-border xl:pl-6">
             <LanguageSwitcher locale={locale} />
             <MobileNav locale={locale} dict={dict} />
           </div>

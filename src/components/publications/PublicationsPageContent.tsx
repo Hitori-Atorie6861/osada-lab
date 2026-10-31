@@ -109,7 +109,7 @@ export default function PublicationsPageContent({
 
       <div className="mx-auto w-full max-w-[1400px] px-6 py-12 md:px-10 md:py-16 lg:px-16">
         {/* Filters */}
-        <div className="grid gap-8 border-b border-border pb-10 lg:grid-cols-[minmax(0,1fr)_180px] lg:gap-12">
+        <div className="grid gap-8 border-b border-border pb-10 lg:grid-cols-[minmax(0,1fr)\_180px] lg:gap-12">
           <div>
             <p className="mb-4 text-sm font-medium text-text-secondary">
               {isJa ? "カテゴリー" : "Category"}
@@ -192,20 +192,22 @@ export default function PublicationsPageContent({
             aria-live="polite"
             className="text-sm text-text-secondary"
           >
-            {isJa
-              ? total === 0
-                ? "該当する業績はありません"
-                : `全${total}件中 ${startIndex + 1}〜${Math.min(
-                    startIndex + PAGE_SIZE,
-                    total,
-                  )}件`
-              : total === 0
-                ? "No matching publications"
-                : `${startIndex + 1}–${Math.min(
-                    startIndex + PAGE_SIZE,
-                    total,
-                  )} of ${total} results`}
+            
+          {isJa
+            ? total === 0
+            ?  "該当する業績はありません"
+            : `全${total}件中 ${startIndex + 1}〜${Math.min(
+            startIndex + PAGE_SIZE,
+            total,
+            )}件`
+          : total === 0
+            ? "No matching publications"
+          : `${startIndex + 1}–${Math.min(
+            startIndex + PAGE_SIZE,
+            total,
+          )} of ${total} results`}
           </p>
+
 
           {total === 0 ? (
             <p className="py-12 text-base text-text-secondary">

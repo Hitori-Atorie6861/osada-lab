@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
@@ -20,13 +21,13 @@ const images = {
 };
 
 const container =
-  "mx-auto w-full max-w-[1800px] px-6 md:px-10 lg:px-16 xl:px-20";
+  "mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20";
 
 const primaryButton =
-  "inline-flex min-h-12 items-center justify-between gap-10 border border-[#1B3A2F] bg-[#1B3A2F] px-6 py-3 text-sm text-white transition-colors hover:bg-[#2E5443]";
+  "inline-flex min-h-12 items-center justify-between gap-6 border border-[#1B3A2F] bg-[#1B3A2F] px-5 py-3 text-sm text-white transition-colors hover:bg-[#2E5443] md:gap-10 md:px-6";
 
 const secondaryButton =
-  "inline-flex min-h-12 items-center justify-between gap-10 border border-[#1B3A2F]/40 px-6 py-3 text-sm transition-colors hover:bg-[#E8EDE3]";
+  "inline-flex min-h-12 items-center justify-between gap-6 border border-[#1B3A2F]/40 px-5 py-3 text-sm transition-colors hover:bg-[#E8EDE3] md:gap-10 md:px-6";
 
 function Arrow() {
   return (
@@ -39,7 +40,10 @@ function Arrow() {
   );
 }
 
-export default async function HomePage({ locale, dict }: Props) {
+export default async function HomePage({
+  locale,
+  dict,
+}: Props) {
   const isJa = locale === "ja";
   const href = (path: string) => `/${locale}/${path}`;
 
@@ -94,7 +98,7 @@ export default async function HomePage({ locale, dict }: Props) {
         aria-labelledby="home-title"
         className="grid border-b border-[#1B3A2F]/15 lg:grid-cols-2"
       >
-        <div className="flex min-w-0 flex-col justify-center px-6 py-12 md:px-10 md:py-16 lg:min-h-[600px] lg:px-16 xl:px-20">
+        <div className="flex min-w-0 flex-col justify-center px-4 py-8 sm:px-6 sm:py-10 md:px-10 md:py-16 lg:min-h-[600px] lg:px-16 xl:px-20">
           <p className="text-xs leading-6 tracking-[0.12em]">
             {isJa
               ? "埼玉大学 経済学部 · 長田研究室"
@@ -103,17 +107,17 @@ export default async function HomePage({ locale, dict }: Props) {
 
           <h1
             id="home-title"
-            className="mt-8 font-medium tracking-[-0.025em]"
+            className="mt-5 font-medium tracking-[-0.025em] md:mt-8"
           >
             {isJa ? (
               <>
-                <span className="block text-[clamp(1.75rem,3vw,3.5rem)] leading-[1.4]">
+                <span className="block text-[clamp(1.5rem,5vw,1.75rem)] leading-[1.4] md:text-[clamp(1.75rem,3vw,3.5rem)]">
                   金融で、より幸せな社会へ
                 </span>
 
                 <span
                   lang="en"
-                  className="mt-5 block text-[clamp(1.5rem,2.5vw,2.75rem)] leading-[1.4]"
+                  className="mt-3 block text-[clamp(1.25rem,4.5vw,1.5rem)] leading-[1.4] md:mt-5 md:text-[clamp(1.5rem,2.5vw,2.75rem)]"
                 >
                   Money and Finance
                   <br />
@@ -121,7 +125,7 @@ export default async function HomePage({ locale, dict }: Props) {
                 </span>
               </>
             ) : (
-              <span className="block text-[clamp(2rem,3.5vw,3.5rem)] leading-[1.4]">
+              <span className="block text-[clamp(1.5rem,5vw,2rem)] leading-[1.4] md:text-[clamp(2rem,3.5vw,3.5rem)]">
                 Money and Finance
                 <br />
                 for a Happier Society
@@ -129,12 +133,12 @@ export default async function HomePage({ locale, dict }: Props) {
             )}
           </h1>
 
-          <p className="mt-6 w-full max-w-[560px] text-base leading-8 text-[#1B3A2F]/80">
+          <p className="mt-4 w-full max-w-[560px] text-sm leading-7 text-[#1B3A2F]/80 md:mt-6 md:text-base md:leading-8">
             {text.heroBody}
           </p>
         </div>
 
-        <div className="relative aspect-[16/9] overflow-hidden lg:aspect-auto lg:min-h-[600px]">
+        <div className="relative aspect-[16/9] min-w-0 overflow-hidden lg:aspect-auto lg:min-h-[600px]">
           <DataWave />
         </div>
       </section>
@@ -144,12 +148,12 @@ export default async function HomePage({ locale, dict }: Props) {
         aria-labelledby="home-news-title"
         className="border-b border-[#1B3A2F]/15 bg-white"
       >
-        <div className={`${container} py-14 md:py-20`}>
-          <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+        <div className={`${container} py-10 md:py-20`}>
+          <div className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
             <div>
               <h2
                 id="home-news-title"
-                className="text-4xl font-medium tracking-[-0.03em] md:text-5xl"
+                className="text-3xl font-medium tracking-[-0.03em] md:text-5xl"
               >
                 News
               </h2>
@@ -169,8 +173,10 @@ export default async function HomePage({ locale, dict }: Props) {
                   {news.map((item) => (
                     <li key={item.id}>
                       <Link
-                        href={href(`news/${encodeURIComponent(item.id)}`)}
-                        className="group grid gap-3 py-6 transition-colors hover:bg-[#F3F5EF] md:grid-cols-[150px_minmax(0,1fr)_20px] md:items-center md:gap-5"
+                        href={href(
+                          `news/${encodeURIComponent(item.id)}`
+                        )}
+                        className="group grid gap-3 py-5 transition-colors hover:bg-[#F3F5EF] md:grid-cols-[150px_minmax(0,1fr)_20px] md:items-center md:gap-5 md:py-6"
                       >
                         <time
                           dateTime={item.date}
@@ -226,8 +232,8 @@ export default async function HomePage({ locale, dict }: Props) {
         aria-labelledby="home-about-title"
         className="bg-[#F0F4F0] text-center"
       >
-        <div className={`${container} py-16 md:py-20`}>
-          <p className="text-4xl tracking-[-0.03em] md:text-5xl">
+        <div className={`${container} py-12 md:py-20`}>
+          <p className="text-3xl tracking-[-0.03em] md:text-5xl">
             About
           </p>
 
@@ -237,18 +243,18 @@ export default async function HomePage({ locale, dict }: Props) {
 
           <h2
             id="home-about-title"
-            className="mx-auto mt-8 max-w-4xl text-xl font-medium leading-[1.8] md:text-3xl"
+            className="mx-auto mt-6 max-w-4xl text-xl font-medium leading-[1.8] md:mt-8 md:text-3xl"
           >
             {dict.about.mission.title}
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-[#1B3A2F]/80">
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#1B3A2F]/80 md:mt-6 md:leading-8">
             {dict.about.body}
           </p>
 
           <Link
             href={href("about")}
-            className={`group mt-8 ${primaryButton}`}
+            className={`group mt-7 ${primaryButton} md:mt-8`}
           >
             {dict.hero.cta}
             <Arrow />
@@ -261,9 +267,9 @@ export default async function HomePage({ locale, dict }: Props) {
         aria-labelledby="home-activities-title"
         className="bg-white"
       >
-        <div className={`${container} py-16 md:py-20`}>
-          <div className="mb-10 text-center md:mb-12">
-            <p className="text-4xl tracking-[-0.03em] md:text-5xl">
+        <div className={`${container} py-12 md:py-20`}>
+          <div className="mb-8 text-center md:mb-12">
+            <p className="text-3xl tracking-[-0.03em] md:text-5xl">
               Activities
             </p>
 
@@ -275,7 +281,7 @@ export default async function HomePage({ locale, dict }: Props) {
             </h2>
           </div>
 
-          <div className="grid gap-12 md:grid-cols-2 md:gap-10">
+          <div className="grid gap-10 md:grid-cols-2 md:gap-10">
             {/* RESEARCH */}
             <article className="flex min-w-0 flex-col">
               <Link
@@ -296,15 +302,15 @@ export default async function HomePage({ locale, dict }: Props) {
                 </span>
               </Link>
 
-              <p className="mt-6 text-[11px] tracking-[0.15em] text-[#1B3A2F]/70">
+              <p className="mt-5 text-[11px] tracking-[0.15em] text-[#1B3A2F]/70 md:mt-6">
                 01 / RESEARCH
               </p>
 
-              <h3 className="mt-3 whitespace-pre-line text-2xl font-medium leading-[1.6] tracking-[-0.025em] lg:text-3xl">
+              <h3 className="mt-3 whitespace-pre-line text-xl font-medium leading-[1.6] tracking-[-0.025em] md:text-2xl lg:text-3xl">
                 {text.researchTitle}
               </h3>
 
-              <p className="mb-8 mt-5 text-base leading-8 text-[#1B3A2F]/80">
+              <p className="mb-6 mt-4 text-sm leading-7 text-[#1B3A2F]/80 md:mb-8 md:mt-5 md:text-base md:leading-8">
                 {text.researchBody}
               </p>
 
@@ -347,15 +353,15 @@ export default async function HomePage({ locale, dict }: Props) {
                 </span>
               </Link>
 
-              <p className="mt-6 text-[11px] tracking-[0.15em] text-[#1B3A2F]/70">
+              <p className="mt-5 text-[11px] tracking-[0.15em] text-[#1B3A2F]/70 md:mt-6">
                 02 / SEMINAR
               </p>
 
-              <h3 className="mt-3 whitespace-pre-line text-2xl font-medium leading-[1.6] tracking-[-0.025em] lg:text-3xl">
+              <h3 className="mt-3 whitespace-pre-line text-xl font-medium leading-[1.6] tracking-[-0.025em] md:text-2xl lg:text-3xl">
                 {text.seminarTitle}
               </h3>
 
-              <p className="mb-8 mt-5 text-base leading-8 text-[#1B3A2F]/80">
+              <p className="mb-6 mt-4 text-sm leading-7 text-[#1B3A2F]/80 md:mb-8 md:mt-5 md:text-base md:leading-8">
                 {text.seminarBody}
               </p>
 
@@ -387,8 +393,8 @@ export default async function HomePage({ locale, dict }: Props) {
         className="bg-white"
       >
         <div className={container}>
-          <div className="grid items-center gap-8 border-t border-[#1B3A2F]/15 py-14 md:grid-cols-[280px_minmax(0,1fr)] md:gap-12 md:py-20 lg:gap-20">
-            <div className="relative mx-auto aspect-[4/5] w-[220px] overflow-hidden bg-[#E8EDE3] md:w-full">
+          <div className="grid items-center gap-8 border-t border-[#1B3A2F]/15 py-12 md:grid-cols-[280px_minmax(0,1fr)] md:gap-12 md:py-20 lg:gap-20">
+            <div className="relative mx-auto aspect-[4/5] w-[200px] max-w-full overflow-hidden bg-[#E8EDE3] sm:w-[220px] md:w-full">
               <Image
                 src={images.professor.src}
                 alt={images.professor.alt}
@@ -398,8 +404,8 @@ export default async function HomePage({ locale, dict }: Props) {
               />
             </div>
 
-            <div className="text-center md:text-left">
-              <p className="text-4xl tracking-[-0.03em] md:text-5xl">
+            <div className="min-w-0 text-center md:text-left">
+              <p className="text-3xl tracking-[-0.03em] md:text-5xl">
                 Professor
               </p>
 
@@ -409,7 +415,7 @@ export default async function HomePage({ locale, dict }: Props) {
 
               <h2
                 id="home-professor-title"
-                className="mt-7 text-3xl font-medium"
+                className="mt-5 text-2xl font-medium md:mt-7 md:text-3xl"
               >
                 {text.professorName}
               </h2>
@@ -418,7 +424,7 @@ export default async function HomePage({ locale, dict }: Props) {
                 {text.professorRole} / {text.professorSpecialty}
               </p>
 
-              <p className="mx-auto mt-5 max-w-xl text-sm leading-8 text-[#1B3A2F]/80 md:mx-0">
+              <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-[#1B3A2F]/80 md:mx-0 md:leading-8">
                 {text.professorBody}
               </p>
 
@@ -452,8 +458,8 @@ export default async function HomePage({ locale, dict }: Props) {
           className="absolute inset-0 -z-10 bg-[#102A20]/80"
         />
 
-        <div className={`${container} py-14 md:py-20`}>
-          <p className="text-4xl tracking-[-0.03em] md:text-5xl">
+        <div className={`${container} py-10 md:py-20`}>
+          <p className="text-3xl tracking-[-0.03em] md:text-5xl">
             Contact
           </p>
 
@@ -464,13 +470,13 @@ export default async function HomePage({ locale, dict }: Props) {
             {text.contactTitle}
           </h2>
 
-          <p className="mt-6 text-sm leading-8 text-white/90">
+          <p className="mt-5 text-sm leading-7 text-white/90 md:mt-6 md:leading-8">
             {text.contactBody}
           </p>
 
           <Link
             href={href("contact")}
-            className="group mt-8 inline-flex min-h-12 items-center justify-between gap-12 border border-white/70 px-8 py-3 text-sm transition-colors hover:bg-white hover:text-[#1B3A2F]"
+            className="group mt-7 inline-flex min-h-12 items-center justify-between gap-6 border border-white/70 px-6 py-3 text-sm transition-colors hover:bg-white hover:text-[#1B3A2F] md:mt-8 md:gap-12 md:px-8"
           >
             {text.contactLink}
             <Arrow />

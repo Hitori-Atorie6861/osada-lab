@@ -573,8 +573,9 @@ export default function DataWave() {
     };
   }, []);
 
+  
   return (
-    <div className="relative h-full min-h-[320px] w-full overflow-hidden bg-[#FAFAF8] lg:min-h-[600px]">
+    <div className="relative h-full w-full overflow-hidden bg-[#FAFAF8]">
       <div
         ref={containerRef}
         aria-hidden="true"

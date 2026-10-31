@@ -530,7 +530,7 @@ professor: {
     basicInfo: [
       {
         label: "Meeting Schedule",
-        value: "Day TBD / Period TBD",
+        value: "Thursdays, Periods 4–5",
       },
       {
         label: "Number of Students",
@@ -542,7 +542,7 @@ professor: {
       },
       {
         label: "Eligible Students",
-        value: "Second- to Fourth-Year Students",
+        value: "2nd–4th-year students",
       },
       {
         label: "Location",
@@ -627,11 +627,11 @@ professor: {
       },
       {
         label: "Day and Period",
-        value: "TBD",
+        value: "Thursdays, Periods 1–2",
       },
       {
         label: "Classroom",
-        value: "TBD",
+        value: "Economics Research Building-A504",
       },
       {
         label: "Target Students",
@@ -639,11 +639,11 @@ professor: {
       },
       {
         label: "Credits",
-        value: "TBD",
+        value: "2 credits",
       },
       {
         label: "Instructor",
-        value: "Takeshi Osada (Details TBD)",
+        value: "Takeshi Osada",
       },
     ],
 
@@ -659,8 +659,10 @@ contact: {
 
   accessTitle: "Access",
   accessDescriptions: [
-    "Information on how to reach Saitama University from nearby railway stations and how to find our laboratory on campus will be provided here.",
-    "Details on bus routes and walking directions may be added as needed.",
+   "・From Kita-Urawa Station (JR Keihin-Tohoku Line): Take a bus bound for Saitama University from the west exit and get off at the last stop.",
+  "・From Minami-Yono Station (JR Saikyo Line): Take a bus bound for Saitama University from the North Entrance bus stop and get off at the last stop.",
+  "・From Minami-Yono Station (JR Saikyo Line): All buses departing from the west exit stop at Saitama University.",
+  "・From Shiki Station (Tobu Tojo Line): Take a bus bound for Minami-Yono Station West Exit from the east exit and get off at Saitama University.",
   ],
 
   mapTitle: "Map",

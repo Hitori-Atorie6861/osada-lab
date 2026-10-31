@@ -1,3 +1,4 @@
+
 "use client";
 
 export type NewsCategory =
@@ -38,7 +39,7 @@ export default function NewsCategorySelect({
     <div className="w-full sm:max-w-[280px]">
       <label
         htmlFor="news-category"
-        className="mb-3 block text-sm font-medium text-text-secondary"
+        className="mb-2 block text-sm font-medium text-text-secondary md:mb-3"
       >
         {locale === "ja" ? "カテゴリー" : "Category"}
       </label>
@@ -49,7 +50,7 @@ export default function NewsCategorySelect({
         onChange={(event) =>
           onCategoryChange(event.target.value as NewsCategory)
         }
-        className="min-h-12 w-full rounded-sm border border-border bg-white px-4 py-3 text-base text-text-primary"
+        className="min-h-12 w-full cursor-pointer rounded-sm border border-border bg-white px-3 py-3 text-base text-text-primary outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 md:px-4"
       >
         {categories.map((category) => (
           <option key={category.value} value={category.value}>
