@@ -1,5 +1,5 @@
 const areas = [
-  { number: "01", label: "BANKING", x: 50, y: 14 },
+  { number: "01", label: "BANKING", x: 50, y: 17 },
   { number: "02", label: "POLICY", x: 84, y: 39 },
   { number: "03", label: "MARKETS", x: 71, y: 79 },
   { number: "04", label: "NETWORKS", x: 29, y: 79 },
@@ -12,7 +12,7 @@ export default function ResearchAreasDiagram() {
       {areas.map((area) => (
         <div
           key={area.number}
-          className="absolute flex aspect-square w-[38%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#1F4D3A] bg-white"
+          className="absolute flex aspect-square w-[30%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#1F4D3A] bg-white"
           style={{
             left: `${area.x}%`,
             top: `${area.y}%`,

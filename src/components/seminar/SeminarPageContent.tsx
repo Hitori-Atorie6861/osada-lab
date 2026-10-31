@@ -197,27 +197,40 @@ export default function SeminarPageContent({
         </div>
 
         <div className="mt-8 grid gap-4 md:mt-12 md:grid-cols-2 md:gap-6">
-          {dict.seminar.externalActivities.map((activity) => (
-            <article
-              key={activity.title}
-              className="group min-w-0 overflow-hidden rounded-xl border border-border transition-shadow duration-300 hover:shadow-lg md:rounded-2xl"
-            >
-              <div className="flex aspect-[16/9] items-center justify-center bg-surface text-sm text-text-secondary transition-transform duration-500 group-hover:scale-[1.02]">
-                Photo
-              </div>
+  {dict.seminar.externalActivities.map((activity, index) => (
+    <article
+      key={activity.title}
+      className="group min-w-0 overflow-hidden rounded-xl border border-border transition-shadow duration-300 hover:shadow-lg md:rounded-2xl"
+    >
+      <div className="aspect-[16/9] overflow-hidden bg-surface">
+        <img
+          src={
+            [
+              "/lecture.jpg",
+              "/company-visit.jpg",
+              "/facility-tour.jpg",
+              "/alumni.jpg",
+            ][index]
+          }
+          alt={activity.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
 
-              <div className="p-5 md:p-7">
-                <h3 className="text-lg font-bold text-[#1F4D3A] md:text-xl">
-                  {activity.title}
-                </h3>
+      <div className="p-5 md:p-7">
+        <h3 className="text-lg font-bold text-[#1F4D3A] md:text-xl">
+          {activity.title}
+        </h3>
 
-                <p className="mt-3 text-sm leading-7 text-text-secondary md:text-base md:leading-loose">
-                  {activity.body}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <p className="mt-3 text-sm leading-7 text-text-secondary md:text-base md:leading-loose">
+          {activity.body}
+        </p>
+      </div>
+    </article>
+  ))}
+</div>
       </section>
 
       {/* 06 実績 */}
@@ -266,12 +279,24 @@ export default function SeminarPageContent({
           </div>
 
           <div className="grid grid-cols-2 gap-3 md:gap-4">
-            <div className="flex aspect-square items-center justify-center rounded-xl bg-surface text-sm text-text-secondary md:rounded-2xl">
-              Photo
+            <div className="aspect-square overflow-hidden rounded-xl bg-surface md:rounded-2xl">
+              <img
+                src="/seminar-camp.jpg"
+                alt={dict.seminar.lifeTitle}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
 
-            <div className="mt-5 flex aspect-square items-center justify-center rounded-xl bg-surface text-sm text-text-secondary md:mt-8 md:rounded-2xl">
-              Photo
+            <div className="mt-5 aspect-square overflow-hidden rounded-xl bg-surface md:mt-8 md:rounded-2xl">
+              <img
+                src="/seminar交流.jpg"
+                alt={dict.seminar.lifeTitle}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+            />
             </div>
           </div>
         </div>
