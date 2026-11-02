@@ -3,10 +3,8 @@
 import { useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import type {
-  PublicationCategory,
-  PublicationItem,
-} from "@/lib/cms";
+import type { PublicationListItem } from "@/lib/cms/publications";
+import type { PublicationCategory } from "@/lib/cms";
 import PageBanner from "@/components/ui/PageBanner";
 
 const categories: PublicationCategory[] = [
@@ -28,7 +26,7 @@ const PAGE_SIZE = 10;
 type Props = {
   locale: Locale;
   dict: Dictionary;
-  publications: PublicationItem[];
+  publications: PublicationListItem[];
   category?: string;
   year?: string;
 };
@@ -84,7 +82,7 @@ export default function PublicationsPageContent({
     startIndex + PAGE_SIZE,
   );
 
-  const grouped = new Map<number, PublicationItem[]>();
+  const grouped = new Map<number, PublicationListItem[]>();
 
   for (const pub of visiblePublications) {
     const items = grouped.get(pub.year) ?? [];

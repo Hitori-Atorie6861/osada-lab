@@ -1,6 +1,6 @@
-export { client } from "./client";
 export { getNewsDetail, getNewsList } from "./news";
 export { getPublicationsList, groupPublicationsByYear } from "./publications";
+
 export type {
   MicroCMSListResponse,
   NewsCategory,

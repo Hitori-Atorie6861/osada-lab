@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
-import type { NewsItem } from "@/lib/cms";
+import type { NewsListItem } from "@/lib/cms/news";
 import { formatNewsDate, getCategoryLabel } from "@/lib/news";
 import NewsCategorySelect, {
   type NewsCategory,
@@ -12,7 +12,7 @@ import NewsCategorySelect, {
 
 type Props = {
   locale: Locale;
-  news: NewsItem[];
+  news: NewsListItem[];
 };
 
 const ITEMS_PER_PAGE = 10;

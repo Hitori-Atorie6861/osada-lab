@@ -1,23 +1,24 @@
 import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import {
-  formatNewsDate,
-  getCategoryLabel,
-  } from "@/lib/news";
-import {
-  getNewsDetail,
-  getNewsList,
-} from "@/lib/cms";
+import { formatNewsDate, getCategoryLabel } from "@/lib/news";
+import { getNewsDetail, getNewsList } from "@/lib/cms";
 import { notFound } from "next/navigation";
+import { sanitizeNewsHtml } from "@/lib/sanitize-news-html";
 
 export const revalidate = 60;
+
+
 
 export async function generateStaticParams() {
   try {
     const news = await getNewsList();
+
     return news.flatMap((item) =>
-      ["ja", "en"].map((locale) => ({ locale, id: item.id })),
+      ["ja", "en"].map((locale) => ({
+        locale,
+        id: item.id,
+      })),
     );
   } catch {
     return [];
@@ -30,15 +31,22 @@ export default async function NewsDetailPage({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { locale, id } = await params;
+
   if (!isLocale(locale)) notFound();
+
   const dict = getDictionary(locale);
 
   let news;
+
   try {
     news = await getNewsDetail(id);
   } catch {
     notFound();
   }
+
+  const safeBody = news.body
+  ? sanitizeNewsHtml(news.body)
+  : "";
 
   return (
     <div className="bg-white">
@@ -58,6 +66,7 @@ export default async function NewsDetailPage({
             >
               {formatNewsDate(news.date, locale)}
             </time>
+
             <div className="flex flex-wrap gap-2">
               {news.category.map((category) => (
                 <span
@@ -74,10 +83,10 @@ export default async function NewsDetailPage({
             {news.title}
           </h1>
 
-          {news.body && (
+          {safeBody && (
             <div
               className="rich-text mt-8 text-base leading-loose text-text-primary"
-              dangerouslySetInnerHTML={{ __html: news.body }}
+              dangerouslySetInnerHTML={{ __html: safeBody }}
             />
           )}
         </article>

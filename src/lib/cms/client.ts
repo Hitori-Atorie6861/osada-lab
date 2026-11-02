@@ -1,3 +1,4 @@
+import "server-only";
 import { createClient } from "microcms-js-sdk";
 
 const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN;
